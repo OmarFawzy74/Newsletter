@@ -61,7 +61,7 @@ app.post("/", (req, res) => {
 
     // Configure API key authorization: api-key
     var apiKey = defaultClient.authentications['api-key'];
-    apiKey.apiKey = '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';
+    apiKey.apiKey = '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';
 
     var apiInstance = new SibApiV3Sdk.ContactsApi();
 
@@ -104,4 +104,4 @@ app.listen(port || process.env.PORT, (req, res) => {
 // Brevo
 
 // API KEY
-// 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
+// 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
