@@ -61,14 +61,12 @@ app.post("/", (req, res) => {
 
     // Configure API key authorization: api-key
     var apiKey = defaultClient.authentications['api-key'];
-    apiKey.apiKey = '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';
+    apiKey.apiKey = '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';
 
     var apiInstance = new SibApiV3Sdk.ContactsApi();
 
     var createContact = new SibApiV3Sdk.CreateContact(); // CreateContact | Values to create a contact
-    // createContact = { 'email' : email };
-    createContact.email = email;
-    createContact.attributes = {'LNAME' : lastName, 'FNAME' : firstName};
+    createContact = { 'email' : email, 'LNAME' : lastName, 'FNAME' : firstName};
 
     apiInstance.createContact(createContact).then(function(data) {
       console.log('API called successfully. Returned data: ' + JSON.stringify(data));
@@ -106,4 +104,4 @@ app.listen(port || process.env.PORT, (req, res) => {
 // Brevo
 
 // API KEY
-// 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
+// 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
