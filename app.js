@@ -1,4 +1,3 @@
-
 const express = require("express");
 
 const bodyParser = require("body-parser");
@@ -22,6 +21,7 @@ app.post("/", (req, res) => {
   var firstName = req.body.firstName;
   var lastName = req.body.lastName;
   var email = req.body.email;
+  var pastData = null;
 
   const run = async () => {
     const MailerLite = require('@mailerlite/mailerlite-nodejs').default;
@@ -38,16 +38,46 @@ app.post("/", (req, res) => {
       }
     };
 
-    mailerlite.subscribers.createOrUpdate(params)
+    mailerlite.subscribers.find(email)
     .then(response => {
       console.log(response.data);
-      res.sendFile(__dirname + "/success.html");
+      pastData = response.data.data;
+      if(pastData.email = email && pastData.fields.name == firstName && pastData.fields.last_name == lastName) {
+        console.log("you have been already signed up");
+        res.sendFile(__dirname + "/signed_up.html");
+      }
+      else if(pastData.email = email && pastData.fields.name != firstName || pastData.fields.last_name != lastName) {
+        console.log("your info updated successfully");
+        
+        mailerlite.subscribers.createOrUpdate(params)
+        .then(response => {
+          console.log(response.data);
+          res.sendFile(__dirname + "/updated.html");
+        })
+        .catch(error => {
+          if (error.response) {
+            console.log(error.response.data);
+            res.sendFile(__dirname + "/failure.html");
+          } 
+        });
+      }
     })
     .catch(error => {
       if (error.response) {
         console.log(error.response.data);
-        res.sendFile(__dirname + "/failure.html");
-      } 
+
+        mailerlite.subscribers.createOrUpdate(params)
+        .then(response => {
+          console.log(response.data);
+          res.sendFile(__dirname + "/success.html");
+        })
+        .catch(error => {
+          if (error.response) {
+            console.log(error.response.data);
+            res.sendFile(__dirname + "/failure.html");
+          } 
+        });
+      }
     });
   }
 
