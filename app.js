@@ -43,11 +43,11 @@ app.post("/", (req, res) => {
       console.log(response.data);
       pastData = response.data.data;
       if(pastData.email = email && pastData.fields.name == firstName && pastData.fields.last_name == lastName) {
-        console.log("you have been already signed up");
+        console.log("you have already signed up");
         res.sendFile(__dirname + "/signed_up.html");
       }
       else if(pastData.email = email && pastData.fields.name != firstName || pastData.fields.last_name != lastName) {
-        console.log("your info updated successfully");
+        console.log("your info has updated successfully");
         
         mailerlite.subscribers.createOrUpdate(params)
         .then(response => {
